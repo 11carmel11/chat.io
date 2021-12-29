@@ -61,8 +61,8 @@ export default function Chat() {
     return chat.map(({ name, message, direct }) => (
       <Card.Body key={nanoid()}>
         <Card.Title>
-          {direct && <code>directed </code>}
-          {name}:
+          {name}
+          {direct && <code> directed to {direct.to} </code>}:
         </Card.Title>
         <Card.Text>{message}</Card.Text>
       </Card.Body>

@@ -29,10 +29,18 @@ io.on("connection", (socket) => {
     if (!message || !name) return;
 
     if (address.id) {
-      const relevantId = connections[logged.indexOf(address.name)];
-      io.to(relevantId).emit("messageBack", { name, message, direct: true });
+      io.to(address.id).emit("messageBack", {
+        name,
+        message,
+        direct: { to: address.name, from: name },
+      });
+      io.to(socket.id).emit("messageBack", {
+        name,
+        message,
+        direct: { to: address.name, from: name },
+      });
     } else {
-      io.emit("messageBack", { name, message, direct: false });
+      io.emit("messageBack", { name, message });
     }
   });
 

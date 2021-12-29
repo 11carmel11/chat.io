@@ -1,7 +1,7 @@
 import React from "react";
 import { ListGroup, Card } from "react-bootstrap";
 
-export default function List({ list }) {
+export default function List({ list, choose }) {
   return (
     <Card
       style={{
@@ -10,7 +10,6 @@ export default function List({ list }) {
         right: "0px",
         top: "0px",
         bottom: "50vh",
-        overflowY: "scroll",
       }}
     >
       <Card.Body>
@@ -24,16 +23,29 @@ export default function List({ list }) {
         >
           <Card.Title>logged users:</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            Card Subtitle - change!!🗑
+            Click a user to send direct message
           </Card.Subtitle>
         </div>
-        <Card.Text>
-          <ListGroup variant="flush">
-            {list.map((person, i) => (
-              <ListGroup.Item key={person + i}>{person}</ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Card.Text>
+        <ListGroup
+          variant="flush"
+          style={{ overflowY: "scroll", height: "35vh" }}
+        >
+          {list.map(({ name, id }, i) => {
+            return (
+              <ListGroup.Item
+                key={id}
+                variant={i % 2 ? "light" : "dark"}
+                id={id}
+                onClick={() => {
+                  choose({ name, id });
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {name}
+              </ListGroup.Item>
+            );
+          })}
+        </ListGroup>
       </Card.Body>
     </Card>
   );

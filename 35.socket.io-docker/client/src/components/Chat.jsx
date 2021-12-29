@@ -16,6 +16,7 @@ export default function Chat() {
 
   const [chat, setChat] = useState([]);
   const [list, setList] = useState([]);
+  const [chosen, setChosen] = useState({});
 
   const socketRef = useRef();
 
@@ -48,13 +49,21 @@ export default function Chat() {
       notyf.error("Please make sure you enter content");
       return;
     }
-    socketRef.current.emit("message", { name, message });
+    socketRef.current.emit("message", { name, message, address: chosen });
+    setChosen("");
+  };
+
+  const choose = (obj) => {
+    if (obj.name !== name) setChosen(obj);
   };
 
   const renderChat = () => {
-    return chat.map(({ name, message }) => (
+    return chat.map(({ name, message, direct }) => (
       <Card.Body key={nanoid()}>
-        <Card.Title>{name}:</Card.Title>
+        <Card.Title>
+          {direct && <code>directed </code>}
+          {name}:
+        </Card.Title>
         <Card.Text>{message}</Card.Text>
       </Card.Body>
     ));
@@ -65,22 +74,13 @@ export default function Chat() {
       <TextArea submitHandler={onMessageSubmit} />
 
       <Card style={{ width: "25rem", overflowY: "scroll", height: "75vh" }}>
-        <Card.Header>Chat Log:</Card.Header>
+        <Card.Header>
+          Chat Log: {chosen.id && `private to ${chosen.name}`}
+        </Card.Header>
         {renderChat()}
       </Card>
 
-      <List list={list} />
+      <List list={list} choose={choose} />
     </div>
   );
 }
-
-/**
- <Card style={{ width: '30rem' }}>
-  <Card.Body>
-    <Card.Title>{name}:</Card.Title>
-    <Card.Text>
-       {message}
-    </Card.Text>
-  </Card.Body>
-</Card>
- */

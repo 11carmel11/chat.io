@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState, useContext } from "react";
-import TextField from "@material-ui/core/TextField";
 import io from "socket.io-client";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import notyf from "../notyf";
 import nameContext from "../contexts/name/context";
+import List from "./List";
+import TextArea from "./TextArea";
 
 const server = "http://localhost:4000";
 
 export default function Chat() {
   const { name } = useContext(nameContext);
 
-  const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [list, setList] = useState([]);
 
@@ -41,18 +41,13 @@ export default function Chat() {
     // return () => socketRef.current.disconnect();
   }, []);
 
-  const onTextChange = ({ target: { value } }) => {
-    setMessage(value);
-  };
-
-  const onMessageSubmit = (e) => {
+  const onMessageSubmit = (e, message) => {
     e.preventDefault();
     if (!message) {
       notyf.error("Please make sure you enter content");
       return;
     }
     socketRef.current.emit("message", { name, message });
-    setMessage("");
   };
 
   const renderChat = () => {
@@ -66,30 +61,15 @@ export default function Chat() {
   };
 
   return (
-    <div className="card">
-      <form onSubmit={onMessageSubmit}>
-        <h1>Messenger</h1>
-        <div>
-          <TextField
-            name="message"
-            onChange={onTextChange}
-            value={message}
-            id="outlined-multiline-static"
-            variant="outlined"
-            label="Message"
-          />
-        </div>
-        <button>Send Message</button>
-      </form>
-      <div className="render-chat">
+    <div>
+      <TextArea submitHandler={onMessageSubmit} />
+
+      <div>
         <h1>Chat Log</h1>
         {renderChat()}
       </div>
-      <ul style={{ border: "5px solid red", display: "inline-grid" }}>
-        {list.map((person, i) => (
-          <li key={i}>{person}</li>
-        ))}
-      </ul>
+
+      <List list={list} />
     </div>
   );
 }

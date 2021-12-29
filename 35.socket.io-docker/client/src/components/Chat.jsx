@@ -2,11 +2,8 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import io from "socket.io-client";
 import { nanoid } from "nanoid";
-import { Notyf } from "notyf";
+import notyf from "../notyf";
 import nameContext from "../contexts/name/context";
-
-import "notyf/notyf.min.css";
-const notyf = new Notyf({ dismissible: true, duration: 2000 });
 
 export default function Chat() {
   const { name } = useContext(nameContext);

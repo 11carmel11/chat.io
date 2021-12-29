@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  front:
+    image: chat-client
+    build: ./client
+    ports:
+      - 3000:3000
+  back:
+    image: chat-back
+    build: ./server
+    ports:
+      - 4000:4000

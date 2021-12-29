@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import io from "socket.io-client";
 import { nanoid } from "nanoid";
+import { Notyf } from "notyf";
+
+const notyf = new Notyf({ dismissible: true, duration: 2000 });
 
 function App() {
   const [state, setState] = useState({ message: "", name: "" });
@@ -28,6 +31,9 @@ function App() {
   const onMessageSubmit = (e) => {
     e.preventDefault();
     const { name, message } = state;
+    if (!message || !name) {
+      notyf.error("Please make sure you enter name and content");
+    }
     socketRef.current.emit("message", { name, message });
     setState({ message: "", name });
   };

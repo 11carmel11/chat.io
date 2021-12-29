@@ -4,6 +4,7 @@ const io = require("socket.io")(http);
 
 io.on("connection", (socket) => {
   socket.on("message", ({ name, message }) => {
+    if (!message || !name) return;
     io.emit("messageBack", { name, message });
   });
 

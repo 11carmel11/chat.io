@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Form, Button } from "react-bootstrap";
 import nameContext from "../contexts/name/context";
 import notyf from "../notyf";
 
@@ -18,19 +19,20 @@ export default function Login() {
   };
 
   return (
-    <>
-      <label htmlFor="name">Enter your name to login:</label>
-      <br />
-      <input
-        id="name"
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={changeName}
-      />
-      <button type="button" onClick={handleLogin}>
+    <Form>
+      <Form.Group className="mb-3" controlId="name">
+        <Form.Label>Enter your name to login:</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={changeName}
+        />
+      </Form.Group>
+
+      <Button type="button" onClick={handleLogin}>
         enter chat
-      </button>
-    </>
+      </Button>
+    </Form>
   );
 }

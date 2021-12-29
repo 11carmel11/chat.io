@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 
 export default function TextArea({ submitHandler }) {
   const [message, setMessage] = useState("");
@@ -14,19 +14,20 @@ export default function TextArea({ submitHandler }) {
   };
 
   return (
-    <form onSubmit={onMessageSubmit}>
+    <form onSubmit={onMessageSubmit} style={{ marginRight: "50vw" }}>
       <h1>Messenger</h1>
-      <div>
-        <TextField
-          name="message"
-          onChange={onTextChange}
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="Message"
+          aria-label="Message"
+          aria-describedby="basic-addon2"
           value={message}
-          id="outlined-multiline-static"
-          variant="outlined"
-          label="Message"
+          onChange={onTextChange}
         />
-      </div>
-      <button>Send Message</button>
+        <Button variant="outline-primary" type="submit" id="button-addon2">
+          Send Message
+        </Button>
+      </InputGroup>
     </form>
   );
 }

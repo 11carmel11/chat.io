@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState, useContext } from "react";
+import { Card } from "react-bootstrap";
 import io from "socket.io-client";
 import { nanoid } from "nanoid";
 import axios from "axios";
@@ -52,11 +53,10 @@ export default function Chat() {
 
   const renderChat = () => {
     return chat.map(({ name, message }) => (
-      <div key={nanoid()}>
-        <h3>
-          {name}: <span>{message}</span>
-        </h3>
-      </div>
+      <Card.Body key={nanoid()}>
+        <Card.Title>{name}:</Card.Title>
+        <Card.Text>{message}</Card.Text>
+      </Card.Body>
     ));
   };
 
@@ -64,12 +64,23 @@ export default function Chat() {
     <div>
       <TextArea submitHandler={onMessageSubmit} />
 
-      <div>
-        <h1>Chat Log</h1>
+      <Card style={{ width: "25rem", overflowY: "scroll", height: "75vh" }}>
+        <Card.Header>Chat Log:</Card.Header>
         {renderChat()}
-      </div>
+      </Card>
 
       <List list={list} />
     </div>
   );
 }
+
+/**
+ <Card style={{ width: '30rem' }}>
+  <Card.Body>
+    <Card.Title>{name}:</Card.Title>
+    <Card.Text>
+       {message}
+    </Card.Text>
+  </Card.Body>
+</Card>
+ */

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import io from "socket.io-client";
 import { nanoid } from "nanoid";
 import axios from "axios";
@@ -40,7 +40,6 @@ export default function Chat() {
     socketRef.current.on("messageBack", (messageObj) => {
       setChat((prevState) => [...prevState, messageObj]);
     });
-    // return () => socketRef.current.disconnect();
   }, []);
 
   const onMessageSubmit = (e, message) => {
@@ -76,6 +75,11 @@ export default function Chat() {
       <Card style={{ width: "25rem", overflowY: "scroll", height: "75vh" }}>
         <Card.Header>
           Chat Log: {chosen.id && `private to ${chosen.name}`}
+          {chosen.id && (
+            <Button variant="info" onClick={() => setChosen({})}>
+              send all
+            </Button>
+          )}
         </Card.Header>
         {renderChat()}
       </Card>
